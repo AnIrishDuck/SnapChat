@@ -1,0 +1,30 @@
+Name:                SnapChat
+Version:             0.1
+Synopsis:            Project Synopsis Here
+Description:         Project Description Here
+License:             AllRightsReserved
+Author:              Author
+Maintainer:          maintainer@example.com
+Stability:           Experimental
+Category:            Web
+Build-type:          Simple
+Cabal-version:       >=1.2
+
+Executable SnapChat
+  hs-source-dirs: src
+  main-is: Main.hs
+
+  Build-depends:
+    base >= 4,
+    haskell98,
+    text,
+    monads-fd >= 0.1 && <0.2,
+    bytestring >= 0.9.1 && <0.10,
+    snap-core >= 0.1 && <0.2,
+    snap-server >= 0.1 && <0.2,
+    heist >= 0.1 && <0.2,
+    filepath >= 1.1 && <1.2
+
+  ghc-options: -O2 -Wall -fwarn-tabs -funbox-strict-fields -threaded -fno-warn-unused-imports
+
+  Extensions: OverloadedStrings
