@@ -1,8 +1,14 @@
 <html>
   <head>
     <title>Room</title>
+    <script type="text/javascript" src="/static/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="/static/chat2.js"></script>
   </head>
-  <body>
-    Chat Room.
+  <body onLoad="refresh()">
+    <div id = "main">
+    </div>
+    <span id="user"></span>
+    <input type="text" id="tosay"/>
+    <input type="submit" id="button" value="Set Name" onClick="setUser()">
   </body>
 </html>

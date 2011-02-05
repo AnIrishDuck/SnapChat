@@ -1,58 +1,58 @@
 module Main where
 
-import           System
-import           Data.Text
-import           Data.IORef
-import           Control.Applicative
-import           Control.Monad.Trans
-import           Snap.Http.Server
-import           Snap.Types
-import           Snap.Util.FileServe
-import           Text.Templating.Heist
+import System
+import Data.Text
+import qualified Data.Map as Map
+import Control.Applicative
+import Control.Monad.Trans
+import Snap.Http.Server
+import Snap.Types
+import Snap.Util.FileServe
+import Text.Templating.Heist
+import Data.CIByteString (CIByteString(..))
+import Data.ByteString (ByteString)
+import Data.Maybe (fromMaybe)
 
-type Entry = String
-type ChatState = IORef [Entry]
+import Chat --(ChatState, Entry, addEntry, addUser, entries, startingState)
+import Control.Concurrent (forkIO)
+import Control.Monad (forever)
 
-text :: Entry -> String
-text e = e
+addHeaderField :: CIByteString -> [ByteString] -> Snap ()
+addHeaderField key values = do
+    modifyResponse $ (updateHeaders $ Map.insert key values)
 
-entries :: ChatState -> IO [Entry]
-entries s = readIORef s
+dontCache :: Snap () -> Snap ()
+dontCache action = do
+    action
+    addHeaderField "Cache-Control" ["no-store"]
 
--- site :: Snap ()
--- site =
---     ifTop (writeBS "hello world") <|>
---     fileServe "."
+chatter :: ChatRoom -> Snap ()
+chatter room = dontCache $ route [("say",     sayHandler room),
+                                  ("room",    fileServeSingle "static/room.html"),
+                                  ("static",  fileServe "static/"),
+                                  ("entries", (roomHandler room))]
 
-chatter :: ChatState -> Snap ()
-chatter room = route [("say",     sayHandler),
-                      ("static",  fileServe "static/"),
-                      ("entries", (roomHandler room))]
+sayHandler :: ChatRoom -> Snap ()
+sayHandler state = do
+    userParam <- getParam "user"
+    let user = fromMaybe "system" userParam
+    newEntry <- getParam "text"
+    case newEntry of
+        Just msg -> liftIO $ addEntry state (Message user msg)
+        Nothing -> writeBS "say something!"
 
-sayHandler :: Snap ()
-sayHandler = writeBS "say something!"
+    roomHandler state
 
-x :: Snap()
-x = do 
-  r <- getRequest; 
-  writeBS $ rqPathInfo r
+roomHandler :: ChatRoom -> Snap ()
+roomHandler room = do
+    userParam <- getParam "user"
+    case userParam of
+        Nothing -> return ()
+        Just "unknown" -> return ()
+        Just userName -> liftIO $ addUser room userName
 
-roomHandler :: ChatState -> Snap ()
-roomHandler room = do 
-  currentEntries <- liftIO (entries room)
-  writeBS "abc"
-  writeText $ pack $ show currentEntries
-
-increment :: IORef Int -> IO Int
-increment var = do
-  x <- readIORef var
-  writeIORef var (x + 1)
-  return (x)
-
-countUp :: IORef Int -> Snap ()
-countUp var = do
-  current <- liftIO $ increment var
-  writeText $ pack $ show current
+    currentEntries <- liftIO (getEntries room)
+    writeText $ pack $ show currentEntries
 
 main :: IO ()
 main = do
@@ -60,10 +60,8 @@ main = do
     let port = case args of
                    []  -> 8000
                    p:_ -> read p
-    roomState <- newIORef ["something something dark side",
-                           "something something destiny"]
-    let site = chatter roomState
-    httpServe "*" port "myserver"
-        (Just "access.log")
-        (Just "error.log")
-        site
+    room <- startingState
+
+    _ <- forkIO (forever $ tick room)
+    let site = chatter room
+    quickHttpServe site
