@@ -20,6 +20,7 @@ import Text.Templating.Heist
 import Data.CIByteString (CIByteString(..))
 import Data.ByteString (ByteString)
 import Data.Maybe (fromMaybe)
+import Control.Concurrent (threadDelay)
 
 import Chat
 import Control.Concurrent (forkIO)
@@ -77,6 +78,6 @@ main = do
                    p:_ -> read p
     room <- startingState
 
-    _ <- forkIO (forever $ tick room)
+    _ <- forkIO (forever $ do tick room; threadDelay 500000)
     let site = chatter room
     quickHttpServe site

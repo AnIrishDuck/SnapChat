@@ -14,7 +14,6 @@ import Data.ByteString (ByteString)
 import qualified Data.Map as Map
        (size, update, toList, partition, member, map, empty, insert)
 import qualified Data.ByteString as ByteString (concat)
-import Control.Concurrent (threadDelay)
 import Control.Concurrent.STM
        (STM, writeTVar, readTVar, atomically, readTVarIO, newTVarIO, TVar)
 import Control.Monad (liftM, forM_)
@@ -94,5 +93,4 @@ tick room = do
     let exitMsg name = (Message "system" (ByteString.concat [name, " left"]))
         keys m = map fst (Map.toList m)
     forM_ (keys usersGone) (\ name -> addEntry room (exitMsg name))
-
-    threadDelay 500000
+ 
