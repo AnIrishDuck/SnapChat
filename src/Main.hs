@@ -72,10 +72,6 @@ roomHandler room = do
 -- |Program entry point.
 main :: IO ()
 main = do
-    args <- getArgs
-    let port = case args of
-                   []  -> 8000
-                   p:_ -> read p
     room <- startingState
 
     _ <- forkIO (forever $ do tick room; threadDelay 500000)
