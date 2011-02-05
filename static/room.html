@@ -5,11 +5,15 @@
     <script type="text/javascript" src="/static/grow.js"></script>  
     <script type="text/javascript" src="/static/chat.js"></script> 
   </head>
+  <style>
+  body { background: #2e3436; }
+  </style>
   <body>
     <table id = "main">
     </table>
     <span id="user"></span>
-    <input type="text" id="tosay"/>
-    <input type="submit" id="button" value="Set Name" onClick="setUser()">
+    <input type="text" id="tosay" 
+           style="color: #babdb6; background-color: #555753; border: 1px solid #888a85"/>
+    <input type="submit" id="button" value="Set Name" onClick="setUser()" />
   </body>
 </html>

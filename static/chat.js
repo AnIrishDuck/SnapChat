@@ -1,6 +1,10 @@
 
 current = []
-
+all_colors = ['#fce94f', '#fcaf3e', '#8ae234', '#729fcf', '#ad7fa8',
+              '#ef2929']
+system_color = '#babdb6'
+system_say = '#e9b96e' 
+ucolors = {}
 userName = "unknown"
 
 $(document).ready(function() {
@@ -11,6 +15,16 @@ $(document).ready(function() {
         maxWidth: 2000
     });
 })
+
+ucolor = function(name) {
+    if(name === "system") { return system_color }
+    if(ucolors[name] === undefined) { 
+        // Take last color and then move it to the end of the list.
+        ucolors[name] = all_colors.pop()
+        all_colors.unshift(ucolors[name])
+    }
+    return ucolors[name] 
+}
 
 sizeBox = function() {
     $('#tosay').width(100)
@@ -23,10 +37,14 @@ updateChat = function(entries)
         newEntries = entries.slice(current.length)
         for(entry in newEntries)
         {
-            entry = newEntries[entry]
-            name = entry[0]
-            talk = entry[1]
-            $('#main').append( "<tr><td>" + name + "</td><td>" + talk + "</td></tr>" )
+            var entry = newEntries[entry]
+            var name = entry[0]
+            var talk = entry[1]
+            var uc = ucolor(name)
+            var sc = name === 'system' ? system_say : '#eeeeec'
+            u = '<td style="color:' + uc + ';">' + name + '</td>' 
+            t = '<td style="color:' + sc + ';">' + talk + '</td>'  
+            $('#main').append( "<tr>" + u + t + "</tr>" )
         }
         current = entries
     }
@@ -46,6 +64,7 @@ setUser = function()
     userName = tosay.val()
 
     $('#user').text(userName)
+    $('#user').css('color', ucolor(userName))
     $('#button').attr('value', 'Post')
     $('#button').attr('onClick', 'say()')
     
