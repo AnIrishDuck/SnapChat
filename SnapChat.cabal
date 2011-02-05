@@ -8,9 +8,9 @@ copyright:
 maintainer: maintainer@example.com
 build-depends: base >=4, bytestring >=0.9.1 && <0.10,
                containers >=0.3.0.0 && <0.4.0.0, filepath >=1.1 && <1.2,
-               haskell98 -any, heist >=0.4 && <0.5, monads-fd >=0.1 && <0.2,
-               snap-core >=0.3 && <0.4, snap-server >=0.3 && <0.4,
-               stm >=2.2 && <2.3, text -any
+               haskell98 -any, heist >=0.4 && <0.5, snap-core >=0.3 && <0.4, 
+               snap-server >=0.3 && <0.4, stm >=2.2 && <2.3, text -any,
+               mtl >=2.0 && <2.1
 stability: Experimental
 homepage:
 package-url:
