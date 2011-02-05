@@ -3,6 +3,19 @@ current = []
 
 userName = "unknown"
 
+$(document).ready(function() {
+    refresh()
+    $('#tosay').autoGrowInput({
+        comfortZone: 10,
+        minWidth: 100,
+        maxWidth: 2000
+    });
+})
+
+sizeBox = function() {
+    $('#tosay').width(100)
+}
+
 updateChat = function(entries)
 {
     if(entries.length > current.length)
@@ -49,4 +62,5 @@ say = function()
     
     // update the page.
     tosay.val('')
+    sizeBox()
 }
