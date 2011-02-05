@@ -9,12 +9,20 @@ userName = "unknown"
 
 $(document).ready(function() {
     refresh()
+    resize()
     $('#tosay').autoGrowInput({
         comfortZone: 10,
         minWidth: 100,
         maxWidth: 2000
     });
 })
+
+resize = function(w) { 
+    var nextHeight = this.innerHeight - $("#button").height() - 30 
+    $('#main-container').height(nextHeight)
+}
+
+$(window).resize(resize)
 
 ucolor = function(name) {
     if(name === "system") { return system_color }

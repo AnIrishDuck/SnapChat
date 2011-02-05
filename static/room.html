@@ -7,13 +7,15 @@
   </head>
   <style>
   body { background: #2e3436; }
+  #main-container { height: 400px; overflow: auto; border: 1px solid #d3d7cf; }
+  #tosay { color: #babdb6; background-color: #555753; border: 1px solid #888a85; }  
   </style>
   <body>
-    <table id = "main">
-    </table>
+    <div id="main-container">
+          <table id="main"></table>
+    </div>
     <span id="user"></span>
-    <input type="text" id="tosay" 
-           style="color: #babdb6; background-color: #555753; border: 1px solid #888a85"/>
+    <input type="text" id="tosay" />
     <input type="submit" id="button" value="Set Name" onClick="setUser()" />
   </body>
 </html>
