@@ -10,7 +10,10 @@ updateChat = function(entries)
         newEntries = entries.slice(current.length)
         for(entry in newEntries)
         {
-            $('#main').append( "<div>" + newEntries[entry] + "</div>" )
+            entry = newEntries[entry]
+            name = entry[0]
+            talk = entry[1]
+            $('#main').append( "<tr><td>" + name + "</td><td>" + talk + "</td></tr>" )
         }
         current = entries
     }
