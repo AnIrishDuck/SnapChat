@@ -86,7 +86,7 @@ refresh = function()
 setUser = function()
 {
     var tosay = $('#tosay')
-    var userName = tosay.val()
+    userName = tosay.val()
 
     $('#user').text(userName)
     $('#user').css('color', ucolor(userName))
