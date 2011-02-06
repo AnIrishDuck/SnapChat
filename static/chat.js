@@ -15,6 +15,16 @@ $(document).ready(function() {
         minWidth: 100,
         maxWidth: 2000
     });
+    $('#tosay').select()
+    $('#tosay').keypress(function(e) {
+        if(e.which == 13) {
+            $("#button").click();
+            return false;
+        }
+        else {
+            return true;
+        }
+    })
 })
 
 resize = function(w) { 
