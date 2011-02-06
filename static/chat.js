@@ -36,7 +36,7 @@ resize = function(w) {
 $(window).resize(resize)
 
 scrollDown = function () {
-    el = $("#main-container")
+    var el = $("#main-container")
     el.animate({ scrollTop: el.attr("scrollHeight") }, 200);
 }
 
@@ -58,7 +58,7 @@ updateChat = function(entries)
 {
     if(entries.length > current.length)
     {
-        newEntries = entries.slice(current.length)
+        var newEntries = entries.slice(current.length)
         for(entry in newEntries)
         {
             var entry = newEntries[entry]
@@ -85,8 +85,8 @@ refresh = function()
 
 setUser = function()
 {
-    tosay = $('#tosay')
-    userName = tosay.val()
+    var tosay = $('#tosay')
+    var userName = tosay.val()
 
     $('#user').text(userName)
     $('#user').css('color', ucolor(userName))
@@ -98,7 +98,7 @@ setUser = function()
 
 say = function()
 {
-    tosay = $('#tosay')
+    var tosay = $('#tosay')
     $.post( '/say',
             {text: tosay.val(), user: userName},
             updateChat,
