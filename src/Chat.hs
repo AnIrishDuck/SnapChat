@@ -15,7 +15,7 @@ import qualified Data.Map as Map
        (size, update, toList, partition, member, map, empty, insert)
 import qualified Data.ByteString as ByteString (concat)
 import Control.Concurrent.STM
-       (STM, writeTVar, readTVar, atomically, readTVarIO, newTVarIO, TVar)
+       (STM, writeTVar, readTVar, atomically, readTVarIO, newTVar, TVar)
 import Control.Monad (liftM, forM_)
 import Data.Sequence ((|>), Seq)
 import qualified Data.Sequence as Seq (empty)
@@ -33,9 +33,9 @@ instance Show Entry where
     show (Message user msg) = show [user, msg]
 
 -- |Creates an empty chat room.
-startingState :: IO ChatRoom
-startingState = do currentEntries <- newTVarIO Seq.empty
-                   currentUsers <- newTVarIO (Map.empty :: Map User Integer)
+startingState :: STM ChatRoom
+startingState = do currentEntries <- newTVar Seq.empty
+                   currentUsers <- newTVar (Map.empty :: Map User Integer)
                    return (Room currentEntries currentUsers)
 
 -- |Gets everything that has been said in the given chat room.

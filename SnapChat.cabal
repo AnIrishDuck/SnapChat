@@ -35,7 +35,7 @@ ld-options:
 pkgconfig-depends:
 frameworks:
 c-sources:
-extensions: OverloadedStrings
+extensions: OverloadedStrings ScopedTypeVariables 
 extra-libraries:
 extra-lib-dirs:
 includes:

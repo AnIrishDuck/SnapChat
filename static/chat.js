@@ -77,7 +77,7 @@ updateChat = function(entries)
 
 refresh = function()
 {
-    $.ajax( {url: '/entries?user=' + userName,
+    $.ajax( {url: 'entries?user=' + userName,
              dataType: 'json',
              success: updateChat} )
     window.setTimeout( refresh, 1000 )
@@ -99,7 +99,7 @@ setUser = function()
 say = function()
 {
     var tosay = $('#tosay')
-    $.post( '/say',
+    $.post( 'say',
             {text: tosay.val(), user: userName},
             updateChat,
             'json' )
