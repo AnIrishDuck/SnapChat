@@ -20,9 +20,15 @@ $(document).ready(function() {
 resize = function(w) { 
     var nextHeight = this.innerHeight - $("#button").height() - 30 
     $('#main-container').height(nextHeight)
+    scrollDown()
 }
 
 $(window).resize(resize)
+
+scrollDown = function () {
+    el = $("#main-container")
+    el.animate({ scrollTop: el.attr("scrollHeight") }, 200);
+}
 
 ucolor = function(name) {
     if(name === "system") { return system_color }
@@ -56,6 +62,7 @@ updateChat = function(entries)
         }
         current = entries
     }
+    scrollDown()
 }
 
 refresh = function()
