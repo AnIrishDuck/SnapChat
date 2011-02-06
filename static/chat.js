@@ -71,8 +71,8 @@ updateChat = function(entries)
             $('#main').append( "<tr>" + u + t + "</tr>" )
         }
         current = entries
-    }
-    scrollDown()
+        scrollDown() 
+    } 
 }
 
 refresh = function()
